@@ -1,0 +1,47 @@
+﻿@model IEnumerable<bladelinkv2.Models.Order>
+@using bladelinkv2.Models
+@{
+    double total = 0;
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_cli)
+        </th>
+        <th>
+            Total
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_cli)
+            </td>
+            <td>
+                @foreach (Product p in item.lp)
+                {
+                    System.Diagnostics.Debug.WriteLine(p.ToString());
+                    total += p.Price;
+                }
+                @total
+            </td>
+            
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID_comm1 }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID_comm1 }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID_comm1 })
+            </td>
+        </tr>
+    }
+
+</table>

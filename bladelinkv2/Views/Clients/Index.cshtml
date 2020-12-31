@@ -1,0 +1,52 @@
+﻿@model PagedList.IPagedList<bladelinkv2.Models.Client>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Client";
+}
+
+<h2>Client</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Clients", FormMethod.Get))
+{
+    <p>
+        Find by name or first name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("First name", "Index", new { sortOrder = ViewBag.FnameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fname)
+            </td>
+            <td><button>@Html.ActionLink("Edit", "Edit", new { id = item.ID_cli })</button></td>
+            <td><button>@Html.ActionLink("Details", "Details", new { id = item.ID_cli })</button></td>
+            <td><button>@Html.ActionLink("Delete", "Delete", new { id = item.ID_cli })</button></td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

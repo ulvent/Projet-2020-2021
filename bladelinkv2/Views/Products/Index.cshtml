@@ -1,0 +1,102 @@
+﻿@model PagedList.IPagedList<bladelinkv2.Models.Product>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Product";
+}
+
+<h2>List of our products</h2>
+
+@if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
+<table>
+    <tr>
+        <th>
+            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+            {
+                <p>
+                    Find by name : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                    <input type="submit" value="Search" />
+                </p>
+            }
+        </th>
+        <th>
+            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+            {
+                <p>
+                    Find by type :  <select name="SearchType">
+                                        <option value='all' selected>--Type--</option>
+                                        <option value="Graphic card">Graphic card</option>
+                                        <option value="Motherboard">Motherboard</option>
+                                    </select>
+                    <input type="submit" value="Search" />
+                </p>
+            }
+        </th>
+    </tr>
+</table>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name Prodcuct", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.PriceSortParm })
+        </th>
+        <th>
+            Stock
+        </th>
+        <th>
+            type
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name_prod)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)€
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Stock)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.type)
+    </td>
+    @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
+    {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID_prod }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID_prod }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID_prod })
+        </td>
+    }
+    @if (Session["id"] != null)
+    {
+        <td>
+            <input type="submit" name="submit" class="btn btn-primary" value="Add" />
+        </td>
+        
+    }
+</tr>
+    }
+
+</table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
