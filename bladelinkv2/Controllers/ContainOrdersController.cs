@@ -11,149 +11,107 @@ using bladelinkv2.dal;
 
 namespace bladelinkv2.Controllers
 {
-    public class OrdersController : Controller
+    public class ContainOrdersController : Controller
     {
         private ShopContext db = new ShopContext();
 
-        // GET: Orders
-        public ViewResult Index()
+        // GET: ContainOrders
+        public ActionResult Index()
         {
-            var result = from Orders in db.Commande
-                         select Orders;
-
-            List<Order> Order = new List<Order>();
-            List<ContainOrder> tempCo = new List<ContainOrder>();
-
-            foreach (Order o in result)
-            {
-                if (o.Id_cli == int.Parse(Session["id"].ToString()))
-                {
-
-                    Order.Add(o);
-                }
-            }
-            var result2 = from ContainOrder in db.CO
-                          select ContainOrder;
-            for (int i = 0; i < Order.Count; i++)
-            {
-                foreach (ContainOrder co in result2)
-                {
-
-                    if (co.ID_Comm == Order[i].ID_comm1)
-                    {
-                        Order[i].lp.Add(co);
-                    }
-                }
-            }
-
-
-            var result3 = from Product in db.Produits
-                          select Product;
-            foreach (Product p in result3)
-            {
-                for (int i = 0; i < Order.Count; i++)
-                {
-                    for (int j = 0; j < Order[i].lp.Count; j++)
-                    {
-                        Order[i].lp[j].p = p;
-
-                    }
-                }
-            }
-            return View(Order.ToList());
+            return View(db.CO.ToList());
         }
 
-        // GET: Orders/Details/5
+        // GET: ContainOrders/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Commande.Find(id);
-            if (order == null)
+            ContainOrder containOrder = db.CO.Find(id);
+            if (containOrder == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(containOrder);
         }
 
-        // GET: Orders/Create
+        // GET: ContainOrders/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: ContainOrders/Create
         // Afin de déjouer les attaques par survalidation, activez les propriétés spécifiques auxquelles vous voulez établir une liaison. Pour 
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID_comm1,Id_cli")] Order order)
+        public ActionResult Create([Bind(Include = "ID_Cont,ID_product,ID_Comm")] ContainOrder containOrder)
         {
             if (ModelState.IsValid)
             {
-                db.Commande.Add(order);
+                db.CO.Add(containOrder);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(order);
+            return View(containOrder);
         }
 
-        // GET: Orders/Edit/5
+        // GET: ContainOrders/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Commande.Find(id);
-            if (order == null)
+            ContainOrder containOrder = db.CO.Find(id);
+            if (containOrder == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(containOrder);
         }
 
-        // POST: Orders/Edit/5
+        // POST: ContainOrders/Edit/5
         // Afin de déjouer les attaques par survalidation, activez les propriétés spécifiques auxquelles vous voulez établir une liaison. Pour 
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_comm1,Id_cli")] Order order)
+        public ActionResult Edit([Bind(Include = "ID_Cont,ID_product,ID_Comm")] ContainOrder containOrder)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(order).State = EntityState.Modified;
+                db.Entry(containOrder).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(order);
+            return View(containOrder);
         }
 
-        // GET: Orders/Delete/5
+        // GET: ContainOrders/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Commande.Find(id);
-            if (order == null)
+            ContainOrder containOrder = db.CO.Find(id);
+            if (containOrder == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(containOrder);
         }
 
-        // POST: Orders/Delete/5
+        // POST: ContainOrders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Commande.Find(id);
-            db.Commande.Remove(order);
+            ContainOrder containOrder = db.CO.Find(id);
+            db.CO.Remove(containOrder);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

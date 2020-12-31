@@ -28,10 +28,10 @@
                 @Html.DisplayFor(modelItem => item.Id_cli)
             </td>
             <td>
-                @foreach (Product p in item.lp)
+                @foreach (ContainOrder o in item.lp)
                 {
-                    System.Diagnostics.Debug.WriteLine(p.ToString());
-                    total += p.Price;
+                    System.Diagnostics.Debug.WriteLine(o.ToString());
+                    total += o.p.Price;
                 }
                 @total
             </td>

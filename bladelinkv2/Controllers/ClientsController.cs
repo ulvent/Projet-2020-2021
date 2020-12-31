@@ -91,7 +91,7 @@ namespace bladelinkv2.Controllers
             {
                 db.Client.Add(client);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
 
             return View(client);

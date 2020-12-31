@@ -17,6 +17,7 @@ namespace bladelinkv2.dal
         public DbSet<Client> Client { get; set; }
         public DbSet<Order> Commande { get; set; }
         public DbSet<Product> Produits { get; set; }
+        public DbSet<ContainOrder> CO { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

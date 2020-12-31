@@ -29,10 +29,18 @@ namespace bladelinkv2.dal
             context.SaveChanges();
 
             var commandes = new List<Order>{
-                new Order { ID_comm1=1, Id_cli=1, lp=Produit},
+                new Order { ID_comm1=1, Id_cli=2},
             };
 
             commandes.ForEach(comm => context.Commande.Add(comm));
+            context.SaveChanges();
+
+            var contain = new List<ContainOrder>{
+                new ContainOrder { ID_Comm=1, ID_Cont=1, ID_Product=1},
+                new ContainOrder { ID_Comm=1, ID_Cont=2, ID_Product=2},
+            };
+
+            contain.ForEach(cont => context.CO.Add(cont));
             context.SaveChanges();
         }
     }
