@@ -4,23 +4,26 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Details command ID N° @Html.DisplayFor(model => model.ID_comm1)</h2>
 
 <div>
     <h4>Order</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id_cli)
-        </dt>
+    <table class="table">
+        <tr>
+            <td>Name product</td>
+            <td>Price</td>
+        </tr>
+        @for (int i = 0; i < Model.lp.Count; i++)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m=>m.lp[i].p.Name_prod)</td>
+                <td>@Html.DisplayFor(m=>m.lp[i].p.Price)€</td>
+            </tr>
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Id_cli)
-        </dd>
-
-    </dl>
+    </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_comm1 }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -28,16 +28,15 @@
                 @Html.DisplayFor(modelItem => item.Id_cli)
             </td>
             <td>
-                @foreach (ContainOrder o in item.lp)
+                @foreach (ContainOrder co in item.lp)
                 {
-                    System.Diagnostics.Debug.WriteLine(o.ToString());
-                    total += o.p.Price;
+                    System.Diagnostics.Debug.WriteLine(co.p.Price);
+                    total += co.p.Price;
                 }
-                @total
+                @total€
             </td>
             
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID_comm1 }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID_comm1 }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID_comm1 })
             </td>

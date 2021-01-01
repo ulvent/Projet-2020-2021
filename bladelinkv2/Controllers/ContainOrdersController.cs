@@ -18,7 +18,26 @@ namespace bladelinkv2.Controllers
         // GET: ContainOrders
         public ActionResult Index()
         {
-            return View(db.CO.ToList());
+            List<ContainOrder> CO = new List<ContainOrder>();
+            List<Product> Prod = new List<Product>();
+            var result = from ContainOrders in db.CO
+                         select ContainOrders;
+            foreach(ContainOrder co in result)
+            {
+                CO.Add(co);
+            }
+
+            var result2 = from Products in db.Produits
+                         select Products;
+            foreach (Product p in result2)
+            {
+                Prod.Add(p);
+            }
+            for(int i=0; i < CO.Count; i++)
+            {
+                CO[i].p = Prod[i];
+            }
+            return View(CO.ToList());
         }
 
         // GET: ContainOrders/Details/5

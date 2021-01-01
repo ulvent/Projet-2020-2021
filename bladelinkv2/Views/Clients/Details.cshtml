@@ -3,56 +3,44 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>Client : Details</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.Name) : 
+                    @Html.DisplayFor(model => model.Name)
+                </div>
 
-<h2>Details</h2>
+                <div class="form-group">
+                    First name : 
+                    @Html.DisplayFor(model => model.Fname)
+                </div>
 
-<div>
-    <h4>Client</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.Email) :
+                    @Html.DisplayFor(model => model.Email)
+                </div>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.Adress) :
+                    @Html.DisplayFor(model => model.Adress)
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fname)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fname)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Adress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Adress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.password)
-        </dd>
-
-    </dl>
+                <div class="form-group">
+                    @Html.DisplayNameFor(model => model.password) :
+                    @Html.DisplayFor(model => model.password)
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID_cli }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
+    {
+        @Html.ActionLink("Back to List", "Index")
+    }
+    </p>

@@ -47,6 +47,7 @@
                                 @Session["fname"] @Session["name"]
                             </a>
                             <div class="dropdown-menu bg-info font-weight-bold" aria-labelledby="navbarDropdown">
+                                <a>@Html.ActionLink("Account", "Details", "Clients", new { id = Session["id"] }, new { @class = "nav-link font-weight-bold ml-3" })</a>
                                 <a>@Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "nav-link font-weight-bold ml-3" })</a>
                                 <a>@Html.ActionLink("Logout", "Logout", "Clients", new { area = "" }, new { @class = "nav-link font-weight-bold ml-3" })</a>
                             </div>

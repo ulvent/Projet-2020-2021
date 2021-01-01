@@ -22,17 +22,17 @@ namespace bladelinkv2.Controllers
                          select Orders;
 
             List<Order> Order = new List<Order>();
-            List<ContainOrder> tempCo = new List<ContainOrder>();
+            List<ContainOrder> CO = new List<ContainOrder>();
+            List<Product> prod = new List<Product>();
 
             foreach (Order o in result)
             {
                 if (o.Id_cli == int.Parse(Session["id"].ToString()))
                 {
-
                     Order.Add(o);
                 }
             }
-           /* var result2 = from ContainOrder in db.CO
+            var result2 = from ContainOrder in db.CO
                           select ContainOrder;
             for (int i = 0; i < Order.Count; i++)
             {
@@ -41,7 +41,7 @@ namespace bladelinkv2.Controllers
 
                     if (co.ID_Comm == Order[i].ID_comm1)
                     {
-                        Order[i].lp.Add(co);
+                        CO.Add(co);
                     }
                 }
             }
@@ -49,17 +49,37 @@ namespace bladelinkv2.Controllers
 
             var result3 = from Product in db.Produits
                           select Product;
-            foreach (Product p in result3)
+            for (int i = 0; i < CO.Count; i++)
             {
-                for (int i = 0; i < Order.Count; i++)
+                foreach (Product p in result3)
                 {
-                    for (int j = 0; j < Order[i].lp.Count; j++)
-                    {
-                        Order[i].lp[j].p = p;
+                    prod.Add(p);
+                }
+            }
 
+            for (int j = 0; j < CO.Count; j++)
+            {
+                for (int i = 0; i < CO.Count; i++)
+                {
+                    if (CO[j].ID_Product == prod[i].ID_prod)
+                    {
+                        CO[j].p = prod[i];
+                        System.Diagnostics.Debug.WriteLine(prod[i].Name_prod);
                     }
                 }
-            }*/
+            }
+
+            for (int j = 0; j < Order.Count; j++)
+            {
+                for (int i = 0; i < CO.Count; i++)
+                {
+                    if (CO[i].ID_Comm == Order[j].ID_comm1)
+                    {
+                        Order[j].lp.Add(CO[i]);
+                    }
+                }
+            }
+            System.Diagnostics.Debug.WriteLine(CO.Count);
             return View(Order.ToList());
         }
 
@@ -71,6 +91,46 @@ namespace bladelinkv2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Order order = db.Commande.Find(id);
+            List<ContainOrder> CO = new List<ContainOrder>();
+            List<Product> prod = new List<Product>();
+
+            var result2 = db.CO.Where(s => s.ID_Comm == order.ID_comm1);
+
+            foreach (ContainOrder co in result2)
+            {
+                CO.Add(co);
+            }
+
+            var result3 = from Product in db.Produits
+                          select Product;
+            for (int i = 0; i < CO.Count; i++)
+            {
+                foreach (Product p in result3)
+                {
+                    prod.Add(p);
+                }
+            }
+
+            for (int j = 0; j < CO.Count; j++)
+            {
+                for (int i = 0; i < CO.Count; i++)
+                {
+                    if (CO[j].ID_Product == prod[i].ID_prod)
+                    {
+                        CO[j].p = prod[i];
+                        System.Diagnostics.Debug.WriteLine(prod[i].Name_prod);
+                    }
+                }
+            }
+
+            for (int i = 0; i < CO.Count; i++)
+            {
+                if (CO[i].ID_Comm == order.ID_comm1)
+                {
+                    order.lp.Add(CO[i]);
+                }
+            }
+            //end
             if (order == null)
             {
                 return HttpNotFound();
