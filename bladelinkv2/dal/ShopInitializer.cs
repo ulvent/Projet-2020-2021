@@ -21,8 +21,9 @@ namespace bladelinkv2.dal
 
 
             var Produit = new List<Product>{
-                new Product{ ID_prod=1, Name_prod="RTX 2070", Price=600, Stock=50, type="Carte graphique"},
-                new Product{ ID_prod=2, Name_prod="RTX 2080", Price=1600, Stock=50, type="Carte graphique"},
+                new Product{ ID_prod=1, Name_prod="RTX 2070", Price=600, Stock=50, type="Graphic card"},
+                new Product{ ID_prod=2, Name_prod="RTX 2080", Price=1600, Stock=50, type="Graphic card"},
+                new Product{ ID_prod=2, Name_prod="MSI MPG Z390 Ging edge AC", Price=150, Stock=50, type="Motherboard" },
             };
 
             Produit.ForEach(p => context.Produits.Add(p));

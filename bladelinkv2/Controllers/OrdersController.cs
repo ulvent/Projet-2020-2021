@@ -32,7 +32,7 @@ namespace bladelinkv2.Controllers
                     Order.Add(o);
                 }
             }
-            var result2 = from ContainOrder in db.CO
+           /* var result2 = from ContainOrder in db.CO
                           select ContainOrder;
             for (int i = 0; i < Order.Count; i++)
             {
@@ -59,7 +59,7 @@ namespace bladelinkv2.Controllers
 
                     }
                 }
-            }
+            }*/
             return View(Order.ToList());
         }
 
