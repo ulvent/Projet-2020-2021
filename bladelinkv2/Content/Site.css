@@ -36,3 +36,14 @@ footer{
     border-radius: 5%;
 }
 
+.comm td{
+    width: 50%;
+}
+
+.total{
+    border-top: solid 2px black;
+}
+
+.black{
+    color: black;
+}

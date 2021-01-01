@@ -11,12 +11,12 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    @Html.DisplayNameFor(model => model.Name) : 
+                    @Html.DisplayNameFor(model => model.Name) :
                     @Html.DisplayFor(model => model.Name)
                 </div>
 
                 <div class="form-group">
-                    First name : 
+                    First name :
                     @Html.DisplayFor(model => model.Fname)
                 </div>
 
@@ -33,14 +33,17 @@
                     @Html.DisplayNameFor(model => model.password) :
                     @Html.DisplayFor(model => model.password)
                 </div>
+
+                <div class="form-group">
+                    <button class="btn btn-success">@Html.ActionLink("Edit", "Edit", new { id = Model.ID_cli }, new { @class = "black" })</button>
+                    @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
+                    {
+                        <button class="btn btn-success">@Html.ActionLink("Back to List", "Index", null, new { @class = "black" })</button>
+                    }
+
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_cli }) |
-    @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
-    {
-        @Html.ActionLink("Back to List", "Index")
-    }
-    </p>

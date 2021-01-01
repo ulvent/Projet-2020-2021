@@ -1,29 +1,43 @@
 ﻿@model bladelinkv2.Models.Order
+@using bladelinkv2.Models
 
 @{
     ViewBag.Title = "Details";
+    double total = 0;
 }
 
-<h2>Details command ID N° @Html.DisplayFor(model => model.ID_comm1)</h2>
-
-<div>
-    <h4>Order</h4>
-    <hr />
-    <table class="table">
-        <tr>
-            <td>Name product</td>
-            <td>Price</td>
-        </tr>
-        @for (int i = 0; i < Model.lp.Count; i++)
-        {
-            <tr>
-                <td>@Html.DisplayFor(m=>m.lp[i].p.Name_prod)</td>
-                <td>@Html.DisplayFor(m=>m.lp[i].p.Price)€</td>
-            </tr>
-        }
-
-    </table>
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>Details command ID N° @Html.DisplayFor(model => model.ID_comm1)</h2>
+            </div>
+            <div class="card-body">
+                <table class="comm">
+                    @for (int i = 0; i < Model.lp.Count; i++)
+                    {
+                        string pict =Model.lp[i].p.Name_prod + ".jpg";
+                        <tr>
+                            <td><img src="~/Images/piece/@pict" width="55px"/></td>
+                            <td>@Html.DisplayFor(model => model.lp[i].p.Name_prod)</td>
+                            <td>@Html.DisplayFor(model => model.lp[i].p.Price)€</td>
+                        </tr>
+                    }
+                    <tr class="total">
+                        <td colspan="2">Total</td>
+                            @foreach (ContainOrder co in Model.lp)
+                            {
+                                total += co.p.Price;
+                            }
+                        <td>
+                            @total€
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-info">@Html.ActionLink("Back to List", "Index",null,new { @class = "black" })</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>

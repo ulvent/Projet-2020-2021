@@ -159,6 +159,9 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\logo.ico" />
+    <Content Include="Images\piece\MSI MPG Z390 Ging edge AC.jpg" />
+    <Content Include="Images\piece\RTX 2070.jpg" />
+    <Content Include="Images\piece\RTX 3080.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
