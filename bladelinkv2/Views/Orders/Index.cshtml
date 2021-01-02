@@ -5,42 +5,36 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>List of our orders</h2>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id_cli)
+                            </td>
+                            <td>
+                                @foreach (ContainOrder co in item.lp)
+                                {
+                                    total += co.p.Price;
+                                }
+                                @total€
+                            </td>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id_cli)
-        </th>
-        <th>
-            Total
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id_cli)
-            </td>
-            <td>
-                @foreach (ContainOrder co in item.lp)
-                {
-                    System.Diagnostics.Debug.WriteLine(co.p.Price);
-                    total += co.p.Price;
-                }
-                @total€
-            </td>
-            
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.ID_comm1 }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID_comm1 })
-            </td>
-        </tr>
-    }
-
-</table>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.ID_comm1 }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ID_comm1 })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

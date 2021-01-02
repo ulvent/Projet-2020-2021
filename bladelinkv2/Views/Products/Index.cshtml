@@ -6,105 +6,96 @@
     ViewBag.Title = "Product";
 }
 
-<h2>List of our products</h2>
-
-@if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
-{
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-}
-
-<table>
-    <tr>
-        <th>
-            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
-            {
-                <p>
-                    Find by name : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                    <input type="submit" value="Search" />
-                </p>
-            }
-        </th>
-        <th>
-            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
-            {
-                <p>
-                    Find by type :  <select name="SearchType">
+<div class="row justify-content-md-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <h2>List of our products</h2>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>
+                            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+                            {
+                                <p>
+                                    Find by name : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                    <input type="submit" value="Search" />
+                                </p>
+                            }
+                        </th>
+                        <th>
+                            @using (Html.BeginForm("Index", "Products", FormMethod.Get))
+                            {
+                                <p>
+                                    Find by type :  <select name="SearchType">
                                         <option value='all' selected>--Type--</option>
                                         <option value="Graphic card">Graphic card</option>
                                         <option value="Motherboard">Motherboard</option>
                                     </select>
-                    <input type="submit" value="Search" />
-                </p>
-            }
-        </th>
-    </tr>
-</table>
+                                    <input type="submit" value="Search" />
+                                </p>
+                            }
+                        </th>
+                        <th>
+                            @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
+                            {
+                                <button class="btn btn-info">
+                                    @Html.ActionLink("Create New", "Create",null,new{@class="black" })
+                                </button>
+                            }
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    @foreach (var item in Model)
+                    {
+                        string pict = item.Name_prod + ".jpg";
+                        <div class="form-group">
+                            <tr>
+                                <td>
+                                    <img src="~/Images/piece/@pict" width="25px" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name_prod)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)€
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Stock)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.type)
+                                </td>
+                                @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
+                                {
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.ID_prod }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.ID_prod }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.ID_prod })
+                                    </td>
+                                }
+                                @if (Session["id"] != null)
+                                {
+                                    <td>
+                                        <input type="submit" name="submit" class="btn btn-primary" value="Add" />
+                                    </td>
 
+                                }
+                            </tr>
+                        </div>
+                    }
+                </table>
+                <div class="pag">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-
-
-<table class="table">
-    <tr>
-        <th>
-            Image
-        </th>
-        <th>
-            @Html.ActionLink("Name Prodcuct", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink("Price", "Index", new { sortOrder = ViewBag.PriceSortParm })
-        </th>
-        <th>
-            Stock
-        </th>
-        <th>
-            type
-        </th>
-        <th></th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        string pict = item.Name_prod + ".jpg";
-<tr>
-    <td>
-        <img src="~/Images/piece/@pict" width="25px" />
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name_prod)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Price)€
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Stock)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.type)
-    </td>
-    @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
-    {
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID_prod }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID_prod }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID_prod })
-        </td>
-    }
-    @if (Session["id"] != null)
-    {
-        <td>
-            <input type="submit" name="submit" class="btn btn-primary" value="Add" />
-        </td>
-        
-    }
-</tr>
-    }
-
-</table>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

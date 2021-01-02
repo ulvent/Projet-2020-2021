@@ -64,7 +64,6 @@ namespace bladelinkv2.Controllers
                     if (CO[j].ID_Product == prod[i].ID_prod)
                     {
                         CO[j].p = prod[i];
-                        System.Diagnostics.Debug.WriteLine(prod[i].Name_prod);
                     }
                 }
             }
@@ -79,7 +78,6 @@ namespace bladelinkv2.Controllers
                     }
                 }
             }
-            System.Diagnostics.Debug.WriteLine(CO.Count);
             return View(Order.ToList());
         }
 
@@ -118,7 +116,6 @@ namespace bladelinkv2.Controllers
                     if (CO[j].ID_Product == prod[i].ID_prod)
                     {
                         CO[j].p = prod[i];
-                        System.Diagnostics.Debug.WriteLine(prod[i].Name_prod);
                     }
                 }
             }
