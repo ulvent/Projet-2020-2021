@@ -11,6 +11,7 @@ namespace bladelinkv2.Models
         public virtual int Id_cli { get; set; }
         [Key]
         public int ID_comm1 { get; set; }
+        public int valid { get; set; }
         public virtual List<ContainOrder> lp { get; set; }
     }
 }

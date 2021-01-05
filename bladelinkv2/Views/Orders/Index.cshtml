@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<bladelinkv2.Models.Order>
 @using bladelinkv2.Models
 @{
-    double total = 0;
+    double total;
     ViewBag.Title = "Index";
 }
 
@@ -15,9 +15,10 @@
                 <table class="table">
                     @foreach (var item in Model)
                     {
+                        total = 0;
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Id_cli)
+                                @Html.DisplayFor(modelItem => item.ID_comm1)
                             </td>
                             <td>
                                 @foreach (ContainOrder co in item.lp)

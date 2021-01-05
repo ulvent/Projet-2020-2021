@@ -30,7 +30,7 @@ namespace bladelinkv2.dal
             context.SaveChanges();
 
             var commandes = new List<Order>{
-                new Order { ID_comm1=1, Id_cli=2},
+                new Order { ID_comm1=1, Id_cli=2, valid=1},
             };
 
             commandes.ForEach(comm => context.Commande.Add(comm));

@@ -41,7 +41,7 @@
                             @if (Session["id"] != null && int.Parse(Session["id"].ToString()) == 2)
                             {
                                 <button class="btn btn-info">
-                                    @Html.ActionLink("Create New", "Create",null,new{@class="black" })
+                                    @Html.ActionLink("Create New", "Create", null, new { @class = "black" })
                                 </button>
                             }
                         </th>
@@ -81,7 +81,7 @@
                                 @if (Session["id"] != null)
                                 {
                                     <td>
-                                        <input type="submit" name="submit" class="btn btn-primary" value="Add" />
+                                        <button class="btn btn-info">@Html.ActionLink("Add", "Add", new { id = item.ID_prod }, new { @class="black"})</button>
                                     </td>
 
                                 }

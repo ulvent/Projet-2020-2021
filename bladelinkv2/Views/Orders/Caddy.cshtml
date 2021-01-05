@@ -1,0 +1,47 @@
+﻿@model bladelinkv2.Models.Order
+@using bladelinkv2.Models
+@{
+    ViewBag.Title = "Caddy";
+    double total = 0;
+}
+
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>Caddy</h2>
+            </div>
+            @if (Model != null)
+            {
+                <div class="card-body">
+                    <table class="comm">
+                        @for (int i = 0; i < Model.lp.Count; i++)
+                        {
+                            string pict = Model.lp[i].p.Name_prod + ".jpg";
+                            <tr>
+                                <td><img src="~/Images/piece/@pict" width="55px" /></td>
+                                <td>@Html.DisplayFor(model => model.lp[i].p.Name_prod)</td>
+                                <td>@Html.DisplayFor(model => model.lp[i].p.Price)€</td>
+                            </tr>
+                        }
+                        <tr class="total">
+                            <td colspan="2">Total</td>
+                            @foreach (ContainOrder co in Model.lp)
+                            {
+                                total += co.p.Price;
+                            }
+                            <td>
+                                @total€
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><button class="btn btn-info">@Html.ActionLink("Validate", "validate", new {id = Model.ID_comm1 }, new { @class = "black" })</button></td>
+                        </tr>
+                    </table>
+                </div>
+            }
+        <h3>no orders in progress</h3>
+
+        </div>
+    </div>
+</div>

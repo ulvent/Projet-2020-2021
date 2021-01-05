@@ -311,6 +311,7 @@
     <Content Include="Views\ContainOrders\Details.cshtml" />
     <Content Include="Views\ContainOrders\Edit.cshtml" />
     <Content Include="Views\ContainOrders\Index.cshtml" />
+    <Content Include="Views\Orders\Caddy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

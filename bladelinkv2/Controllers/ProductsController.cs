@@ -130,7 +130,7 @@ namespace bladelinkv2.Controllers
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID_prod,Name_prod,Price,Stock,type")] Product product)
+        public ActionResult Edit([Bind(Include = "Name_prod,Price,Stock,type")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -174,6 +174,54 @@ namespace bladelinkv2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //commande
+        public ActionResult Add(int id)
+        {
+            System.Diagnostics.Debug.WriteLine("add on");
+            var test = from Order in db.Commande
+                       select Order;
+            List<Order> otest = new List<Order>();
+            foreach(Order ot in test)
+            {
+                if (ot.Id_cli == int.Parse(Session["id"].ToString()) && ot.valid == 0)
+                {
+                    otest.Add(ot);
+                }
+            }
+            if (otest.Count()==0)
+            { 
+                Order o = new Order { Id_cli = int.Parse(Session["id"].ToString()), valid = 0 };
+                db.Commande.Add(o);
+                db.SaveChanges();
+                Order Order=null;
+                foreach (Order or in test)
+                {
+                    if (or.Id_cli == int.Parse(Session["id"].ToString()) && or.valid == 0)
+                    {
+                        Order=or;
+                    }
+                }
+                ContainOrder co = new ContainOrder { ID_Comm = Order.ID_comm1, ID_Product = id };
+                db.CO.Add(co);
+                db.SaveChanges();
+            }
+            else
+            {
+                Order Order = null;
+                foreach (Order or in test)
+                {
+                    if (or.Id_cli == int.Parse(Session["id"].ToString()) && or.valid == 0)
+                    {
+                        Order = or;
+                    }
+                }
+                ContainOrder co = new ContainOrder { ID_Comm = Order.ID_comm1, ID_Product = id };
+                db.CO.Add(co);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

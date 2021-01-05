@@ -27,7 +27,7 @@ namespace bladelinkv2.Controllers
 
             foreach (Order o in result)
             {
-                if (o.Id_cli == int.Parse(Session["id"].ToString()))
+                if (o.Id_cli == int.Parse(Session["id"].ToString()) && o.valid == 1)
                 {
                     Order.Add(o);
                 }
@@ -111,7 +111,7 @@ namespace bladelinkv2.Controllers
 
             for (int j = 0; j < CO.Count; j++)
             {
-                for (int i = 0; i < CO.Count; i++)
+                for (int i = 0; i < prod.Count; i++)
                 {
                     if (CO[j].ID_Product == prod[i].ID_prod)
                     {
@@ -210,6 +210,29 @@ namespace bladelinkv2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Order order = db.Commande.Find(id);
+            var result2 = from ContainOrder in db.CO
+                          select ContainOrder;
+            List<ContainOrder> CO = new List<ContainOrder>();
+            foreach (ContainOrder co in result2)
+            {
+
+                if (co.ID_Comm == order.ID_comm1)
+                {
+                    CO.Add(co);
+                    System.Diagnostics.Debug.WriteLine(co.ID_Comm);
+                }
+            }
+            for (int i = 0; i < CO.Count; i++)
+            {
+                if (CO[i].ID_Comm == order.ID_comm1)
+                {
+                    order.lp.Add(CO[i]);
+                }
+            }
+            for (int i = 0; i < order.lp.Count(); i++)
+            {
+                db.CO.Remove(order.lp[i]);
+            }
             db.Commande.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -222,6 +245,120 @@ namespace bladelinkv2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //CADDY
+        public ActionResult Caddy()
+        {
+            var result = from Orders in db.Commande
+                         select Orders;
+
+            Order Order = null;
+            List<ContainOrder> CO = new List<ContainOrder>();
+            List<Product> prod = new List<Product>();
+
+            foreach (Order o in result)
+            {
+                if (o.Id_cli == int.Parse(Session["id"].ToString()) && o.valid == 0)
+                {
+                    Order = o;
+                    System.Diagnostics.Debug.WriteLine(Order.ID_comm1);
+                }
+            }
+            var result2 = from ContainOrder in db.CO
+                          select ContainOrder;
+            if (Order != null)
+            {
+                foreach (ContainOrder co in result2)
+                {
+
+                    if (co.ID_Comm == Order.ID_comm1)
+                    {
+                        CO.Add(co);
+                        System.Diagnostics.Debug.WriteLine(co.ID_Comm);
+                    }
+                }
+
+
+                var result3 = from Product in db.Produits
+                              select Product;
+                for (int i = 0; i < CO.Count; i++)
+                {
+                    foreach (Product p in result3)
+                    {
+                        prod.Add(p);
+                    }
+                }
+
+                for (int j = 0; j < CO.Count; j++)
+                {
+                    for (int i = 0; i < prod.Count; i++)
+                    {
+                        if (CO[j].ID_Product == prod[i].ID_prod)
+                        {
+                            CO[j].p = prod[i];
+                            System.Diagnostics.Debug.WriteLine(CO[j].p.Name_prod);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < CO.Count; i++)
+                {
+                    if (CO[i].ID_Comm == Order.ID_comm1)
+                    {
+                        Order.lp.Add(CO[i]);
+                    }
+                }
+            }
+
+
+            return View(Order);
+
+        }
+        //validate
+        public ActionResult Validate(int id)
+        {
+            Order o = db.Commande.Find(id);
+            List<ContainOrder> CO = new List<ContainOrder>();
+            List<Product> prod = new List<Product>();
+            var result2 = from ContainOrder in db.CO
+                          select ContainOrder;
+                foreach (ContainOrder co in result2)
+                {
+
+                    if (co.ID_Comm == o.ID_comm1)
+                    {
+                        CO.Add(co);
+                        System.Diagnostics.Debug.WriteLine(co.ID_Comm);
+                    }
+                }
+
+
+                var result3 = from Product in db.Produits
+                              select Product;
+                for (int i = 0; i < CO.Count; i++)
+                {
+                    foreach (Product p in result3)
+                    {
+                        prod.Add(p);
+                    }
+                }
+
+                for (int j = 0; j < CO.Count; j++)
+                {
+                    for (int i = 0; i < prod.Count; i++)
+                    {
+                        if (CO[j].ID_Product == prod[i].ID_prod)
+                        {
+                           prod[i].Stock-=1;
+                        db.Entry(prod[i]).State = EntityState.Modified;
+                    }
+                    }
+                }
+             o.valid = 1;
+            db.Entry(o).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

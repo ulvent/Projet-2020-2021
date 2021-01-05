@@ -123,7 +123,7 @@ namespace bladelinkv2.Controllers
             {
                 db.Entry(client).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("details", new { id = Session["id"] });
+                return RedirectToAction("Details", new { id = Session["id"] });
             }
             return View(client);
         }
