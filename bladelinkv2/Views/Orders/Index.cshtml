@@ -29,8 +29,7 @@
                             </td>
 
                             <td>
-                                @Html.ActionLink("Details", "Details", new { id = item.ID_comm1 }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.ID_comm1 })
+                                <button class="btn btn-outline-success">@Html.ActionLink("Details", "Details", new { id = item.ID_comm1 }, new {@class="black" })</button>
                             </td>
                         </tr>
                     }

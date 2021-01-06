@@ -23,7 +23,6 @@ namespace bladelinkv2.Controllers
 
             List<Order> Order = new List<Order>();
             List<ContainOrder> CO = new List<ContainOrder>();
-            List<Product> prod = new List<Product>();
 
             foreach (Order o in result)
             {
@@ -53,24 +52,15 @@ namespace bladelinkv2.Controllers
             {
                 foreach (Product p in result3)
                 {
-                    prod.Add(p);
-                }
-            }
-
-            for (int j = 0; j < CO.Count; j++)
-            {
-                for (int i = 0; i < CO.Count; i++)
-                {
-                    if (CO[j].ID_Product == prod[i].ID_prod)
+                    if (CO[i].ID_Product == p.ID_prod)
                     {
-                        CO[j].p = prod[i];
+                        CO[i].p = p;
                     }
                 }
             }
-
             for (int j = 0; j < Order.Count; j++)
             {
-                for (int i = 0; i < CO.Count; i++)
+                for ( int i = 0; i < CO.Count; i++)
                 {
                     if (CO[i].ID_Comm == Order[j].ID_comm1)
                     {
@@ -90,7 +80,6 @@ namespace bladelinkv2.Controllers
             }
             Order order = db.Commande.Find(id);
             List<ContainOrder> CO = new List<ContainOrder>();
-            List<Product> prod = new List<Product>();
 
             var result2 = db.CO.Where(s => s.ID_Comm == order.ID_comm1);
 
@@ -105,18 +94,11 @@ namespace bladelinkv2.Controllers
             {
                 foreach (Product p in result3)
                 {
-                    prod.Add(p);
-                }
-            }
-
-            for (int j = 0; j < CO.Count; j++)
-            {
-                for (int i = 0; i < prod.Count; i++)
-                {
-                    if (CO[j].ID_Product == prod[i].ID_prod)
+                    if (CO[i].ID_Product == p.ID_prod)
                     {
-                        CO[j].p = prod[i];
+                        CO[i].p = p;
                     }
+                        
                 }
             }
 
@@ -190,7 +172,7 @@ namespace bladelinkv2.Controllers
         }
 
         // GET: Orders/Delete/5
-        public ActionResult Delete(int? id)
+       /* public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -202,12 +184,9 @@ namespace bladelinkv2.Controllers
                 return HttpNotFound();
             }
             return View(order);
-        }
+        }*/
 
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             Order order = db.Commande.Find(id);
             var result2 = from ContainOrder in db.CO
@@ -222,16 +201,9 @@ namespace bladelinkv2.Controllers
                     System.Diagnostics.Debug.WriteLine(co.ID_Comm);
                 }
             }
-            for (int i = 0; i < CO.Count; i++)
+            for (int i = 0; i <CO.Count(); i++)
             {
-                if (CO[i].ID_Comm == order.ID_comm1)
-                {
-                    order.lp.Add(CO[i]);
-                }
-            }
-            for (int i = 0; i < order.lp.Count(); i++)
-            {
-                db.CO.Remove(order.lp[i]);
+                db.CO.Remove(CO[i]);
             }
             db.Commande.Remove(order);
             db.SaveChanges();
@@ -255,7 +227,6 @@ namespace bladelinkv2.Controllers
 
             Order Order = null;
             List<ContainOrder> CO = new List<ContainOrder>();
-            List<Product> prod = new List<Product>();
 
             foreach (Order o in result)
             {
@@ -286,18 +257,9 @@ namespace bladelinkv2.Controllers
                 {
                     foreach (Product p in result3)
                     {
-                        prod.Add(p);
-                    }
-                }
-
-                for (int j = 0; j < CO.Count; j++)
-                {
-                    for (int i = 0; i < prod.Count; i++)
-                    {
-                        if (CO[j].ID_Product == prod[i].ID_prod)
+                        if (CO[i].ID_Product == p.ID_prod)
                         {
-                            CO[j].p = prod[i];
-                            System.Diagnostics.Debug.WriteLine(CO[j].p.Name_prod);
+                            CO[i].p = p;
                         }
                     }
                 }
@@ -320,7 +282,6 @@ namespace bladelinkv2.Controllers
         {
             Order o = db.Commande.Find(id);
             List<ContainOrder> CO = new List<ContainOrder>();
-            List<Product> prod = new List<Product>();
             var result2 = from ContainOrder in db.CO
                           select ContainOrder;
                 foreach (ContainOrder co in result2)
@@ -340,21 +301,13 @@ namespace bladelinkv2.Controllers
                 {
                     foreach (Product p in result3)
                     {
-                        prod.Add(p);
-                    }
-                }
-
-                for (int j = 0; j < CO.Count; j++)
-                {
-                    for (int i = 0; i < prod.Count; i++)
-                    {
-                        if (CO[j].ID_Product == prod[i].ID_prod)
+                        if (CO[i].ID_Product == p.ID_prod)
                         {
-                           prod[i].Stock-=1;
-                        db.Entry(prod[i]).State = EntityState.Modified;
+                            p.Stock -= 1;
+                            db.Entry(p).State = EntityState.Modified;
+                        }
                     }
-                    }
-                }
+                } 
              o.valid = 1;
             db.Entry(o).State = EntityState.Modified;
             db.SaveChanges();

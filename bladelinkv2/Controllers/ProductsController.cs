@@ -130,7 +130,7 @@ namespace bladelinkv2.Controllers
         // plus de détails, consultez https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name_prod,Price,Stock,type")] Product product)
+        public ActionResult Edit([Bind(Include = "ID_prod,Name_prod,Price,Stock,type")] Product product)
         {
             if (ModelState.IsValid)
             {

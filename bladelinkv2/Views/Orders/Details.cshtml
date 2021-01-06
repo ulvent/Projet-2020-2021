@@ -34,7 +34,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><button class="btn btn-info">@Html.ActionLink("Back to List", "Index",null,new { @class = "black" })</button></td>
+                        <td><button class="btn btn-info">@Html.ActionLink("Back to List", "Index", null, new { @class = "black" })</button></td>
+                        <td><button class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = Model.ID_comm1 }, new { @class = "black" })</button></td>
                     </tr>
                 </table>
             </div>
